@@ -4,7 +4,7 @@
 -compile(export_all).
 -include_lib ("n2o/include/wf.hrl").
 -include("users.hrl").
--define(APP, web).
+-define(APP, n2o_sample).
 
 %% ===================================================================
 %% API functions

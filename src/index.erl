@@ -5,7 +5,7 @@
 main() -> 
     case wf:user() of
          undefined -> wf:redirect("/login");
-         _ -> #dtl{file = "index", bindings=[{title,title()},{body,body()}]}
+         _ -> #dtl{file = "index", app=n2o_sample,bindings=[{title,title()},{body,body()}]}
      end.
 
 title() -> [ <<"N2O">> ].

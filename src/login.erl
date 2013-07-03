@@ -3,7 +3,7 @@
 -include_lib("n2o/include/wf.hrl").
 
 title() -> [ <<"Login">> ].
-main() -> #dtl{file = "login", bindings=[{title,title()},{body,body()}]}.
+main() -> #dtl{file = "login", app=n2o_sample,bindings=[{title,title()},{body,body()}]}.
 
 body() -> [ #span{id=display}, #br{},
             #span{body="Login: "}, #textbox{id=user}, #br{},

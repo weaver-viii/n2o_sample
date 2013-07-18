@@ -6,19 +6,11 @@
 -include("users.hrl").
 -define(APP, n2o_sample).
 
-%% ===================================================================
-%% API functions
-%% ===================================================================
-
-start_link() ->
-    supervisor:start_link({local, ?MODULE}, ?MODULE, []).
-
-%% ===================================================================
-%% Supervisor callbacks
-%% ===================================================================
+start_link() -> supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 
 init([]) ->
-    {ok, _} = cowboy:start_http(http, 100, [{port, wf:config(port)}],
+
+    {ok, _} = cowboy:start_http(http, 100, [{port, 8000}],
                                            [{env, [{dispatch, dispatch_rules()}]}]),
 
     users:init(),

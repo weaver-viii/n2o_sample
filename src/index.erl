@@ -19,6 +19,7 @@ body() ->
 
 event(init) ->
     User = wf:user(),
+    wf:reg(room),
     wf:insert_bottom(history, [ #span{ body = io_lib:format("User ~p logged in.", [User]) },
                                 #button{id=logout, body="Logout", postback=logout}, #br{} ]);
 
@@ -30,7 +31,6 @@ event({chat,Pid}) ->
     Username = wf:user(),
     Message = wf:q(message),
     wf:wire("$('#message').focus(); $('#message').select(); "),
-    wf:reg(room),
     Pid ! {message, Username, Message};
 
 event(Event) -> error_logger:info_msg("Event: ~p", [Event]).

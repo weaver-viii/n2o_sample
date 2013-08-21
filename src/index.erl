@@ -30,7 +30,7 @@ event({chat,Pid}) ->
     error_logger:info_msg("Chat Pid: ~p",[Pid]),
     Username = wf:user(),
     Message = wf:q(message),
-    wf:wire("$('#message').focus(); $('#message').select(); "),
+    wf:wire(#jq{target=message,method=[focus,select]}),
     Pid ! {message, Username, Message};
 
 event(Event) -> error_logger:info_msg("Event: ~p", [Event]).

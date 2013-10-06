@@ -13,5 +13,4 @@ exists(Id) -> ets:member(users, wf:to_list(Id)).
 get() -> ets:tab2list(users).
 get(Id) -> [User] = ets:lookup(users, wf:to_list(Id)), User.
 delete(Id) -> ets:delete(users, Id).
-post(User=#user{}) -> ets:insert(users, User);
 post(Data) -> ets:insert(users, unmap(Data, #user{})).

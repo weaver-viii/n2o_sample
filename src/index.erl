@@ -20,7 +20,8 @@ body() ->
 event(init) ->
     User = wf:user(),
     wf:reg(room),
-    wf:insert_bottom(history, [ #span{ body = io_lib:format("User ~p logged in.", [User]) },
+    X = wf:qs(<<"x">>),
+    wf:insert_bottom(history, [ #span{ body = io_lib:format("User ~p logged in. X = ~p", [User,X]) },
                                 #button{id=logout, body="Logout", postback=logout}, #br{} ]);
 
 event(logout) -> wf:user(undefined), wf:redirect("/login");
@@ -30,8 +31,11 @@ event({chat,Pid}) ->
     error_logger:info_msg("Chat Pid: ~p",[Pid]),
     Username = wf:user(),
     Message = wf:q(message),
+    wf:wire(#confirm{text="Are you nuts",postback=continue}),
     wf:wire(#jq{target=message,method=[focus,select]}),
     Pid ! {message, Username, Message};
+
+event(continue) -> error_logger:info_msg("OK Pressed");
 
 event(Event) -> error_logger:info_msg("Event: ~p", [Event]).
 

@@ -18,11 +18,11 @@ map(#user{id = Id, name = Name, email = Email}) ->
     {email, wf:to_binary(Email)} ].
 
 unmap([],                         O) -> O;
-unmap([{<<"id">>,    Id}    | T], O) -> unmap(T, O#user{id    = Id});
-unmap([{<<"name">>,  Name}  | T], O) -> unmap(T, O#user{name  = Name});
-unmap([{<<"email">>, Email} | T], O) -> unmap(T, O#user{email = Email});
+unmap([{<<"id">>,    Id}    | T], O) -> unmap(T, O#user{id    = wf:to_list(Id)});
+unmap([{<<"name">>,  Name}  | T], O) -> unmap(T, O#user{name  = wf:to_list(Name)});
+unmap([{<<"email">>, Email} | T], O) -> unmap(T, O#user{email = wf:to_list(Email)});
 unmap([ _                   | T], O) -> unmap(T, O).
 
-keys_allowed(Fields) ->
-     lists:subtract(lists:map(fun wf:to_list/1, Fields),
-                    lists:map(fun wf:to_list/1, record_info(fields, user))) == [].
+%keys_allowed(Fields) ->
+%     lists:subtract(lists:map(fun wf:to_list/1, Fields),
+%                    lists:map(fun wf:to_list/1, record_info(fields, user))) == [].

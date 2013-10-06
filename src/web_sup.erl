@@ -8,12 +8,17 @@
 
 start_link() -> supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 
+-define(USERS, [#user{id="maxim",email="maxim@synrc.com"},
+                #user{id="doxtop",email="doxtop@synrc.com"},
+                #user{id="roman",email="roman@github.com"}]).
+
 init([]) ->
 
     {ok, _} = cowboy:start_http(http, 100, [{port, 8000}],
                                            [{env, [{dispatch, dispatch_rules()}]}]),
 
     users:init(),
+    users:populate(?USERS),
 
     {ok, {{one_for_one, 5, 10}, []}}.
 

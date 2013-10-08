@@ -1,0 +1,24 @@
+(ns lispchat (require erlang joxa-core n2o wf))
+
+(defn+ body() [(n2o/panel   {:id :history})
+               (n2o/textbox {:id :message})
+               (n2o/button  {:id :send}
+                            {:body "Chat"}
+                            {:postback :chat}
+                            {:source [:message]}) ])
+
+(defn+ main() [(n2o/dtl {:app :n2o_sample}
+                        {:file "index"}
+                        {:bindings [{:title "Title"} {:body (body)}]})])
+
+(defn+ speak(m) (wf/insert_bottom :history (n2o/span {:body m})))
+
+(defn+ event(body)
+    (case body
+        (:init (speak ["Hello" (n2o/br)]))
+        (:chat (speak [(wf/q :message) (n2o/br)]))))
+
+(defn+ test() (do 
+                (event :init)
+                (wf/info "hello ~p~n" [(main)])))
+

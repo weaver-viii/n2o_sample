@@ -14,7 +14,7 @@ start_link() -> supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 
 init([]) ->
 
-    {ok, _} = cowboy:start_http(http, 100, [{port, 8000}],
+    {ok, _} = cowboy:start_http(http, 100, [{port, wf:config(port)}],
                                            [{env, [{dispatch, dispatch_rules()}]}]),
 
     users:init(),

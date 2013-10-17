@@ -4,7 +4,7 @@
 
 main() -> 
     case wf:user() of
-         undefined -> wf:redirect("/login");
+         undefined -> wf:redirect("/login"), #dtl{file="index",app=n2o_sample,bindings=[{title,""},{body,""}]};
          _ -> #dtl{file = "index", app=n2o_sample,bindings=[{title,title()},{body,body()}]}
      end.
 
@@ -21,7 +21,7 @@ event(init) ->
     User = wf:user(),
     wf:reg(room),
     X = wf:qs(<<"x">>),
-    wf:insert_bottom(history, [ #span{ body = io_lib:format("User ~p logged in. X = ~p", [User,X]) },
+    wf:insert_bottom(history, [ #span{id=text, body = io_lib:format("User ~p logged in. X = ~p", [User,X]) },
                                 #button{id=logout, body="Logout", postback=logout}, #br{} ]);
 
 event(logout) -> wf:user(undefined), wf:redirect("/login");
@@ -33,7 +33,7 @@ event({chat,Pid}) ->
     Message = wf:q(message),
 %    wf:wire(#confirm{text="Are you nuts",postback=continue}),
     wf:wire(#jq{target=message,method=[focus,select]}),
-    wf:update(logout,[#link{id="ink",body="Hello",postback=logout}]),
+    wf:update(text,[#link{id="ink",body="Hello",postback=logout}]),
     Pid ! {message, Username, Message};
 
 event(continue) -> error_logger:info_msg("OK Pressed");

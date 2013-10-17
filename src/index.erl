@@ -33,7 +33,7 @@ event({chat,Pid}) ->
     Message = wf:q(message),
 %    wf:wire(#confirm{text="Are you nuts",postback=continue}),
     wf:wire(#jq{target=message,method=[focus,select]}),
-    wf:update(text,[#link{id="ink",body="Hello",postback=logout}]),
+    wf:update(text,#link{id="ink",body="Hello",postback=logout}),
     Pid ! {message, Username, Message};
 
 event(continue) -> error_logger:info_msg("OK Pressed");

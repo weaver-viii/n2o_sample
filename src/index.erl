@@ -21,7 +21,7 @@ event(init) ->
     User = wf:user(),
     wf:reg(room),
     X = wf:qs(<<"x">>),
-    wf:insert_bottom(history, [ #span{id=text, body = io_lib:format("User ~p logged in. X = ~p", [User,X]) },
+    wf:insert_bottom(history, [ #span{id=text, body = io_lib:format("User ~s logged in. X = ~p", [User,X]) },
                                 #button{id=logout, body="Logout", postback=logout}, #br{} ]);
 
 event(logout) -> wf:user(undefined), wf:redirect("/login");
@@ -33,7 +33,8 @@ event({chat,Pid}) ->
     Message = wf:q(message),
 %    wf:wire(#confirm{text="Are you nuts",postback=continue}),
     wf:wire(#jq{target=message,method=[focus,select]}),
-    wf:update(text,#link{id="ink",body="Hello",postback=logout}),
+%    wf:update(history,#link{id="ink",body="Hello",postback=logout}),
+    wf:update(text,[#panel{body= <<"Text">>},#panel{body= <<"OK">>}]),
     Pid ! {message, Username, Message};
 
 event(continue) -> error_logger:info_msg("OK Pressed");
@@ -43,7 +44,7 @@ event(Event) -> error_logger:info_msg("Event: ~p", [Event]).
 chat_loop() ->
     receive 
         {message, Username, Message} ->
-            Terms = [ #span { body=Username }, ": ", #span { body=Message }, #br{} ],
+            Terms = [ #span { body=Username }, [": "], #span { body=Message }, #br{} ],
             wf:insert_bottom(history, Terms),
             wf:wire("$('#chatHistory').scrollTop = $('#chatHistory').scrollHeight;"),
             wf:flush(room);

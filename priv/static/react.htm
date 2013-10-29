@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <title>Hello React</title>
+    <script src="http://fb.me/react-0.5.0.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.5.0.js"></script>
+    <script src="http://localhost:8000/static/nitrogen/jquery.js"></script>
+  </head>
+  <body>
+    <div id="content"></div>
+    <script type="text/jsx">
+
+/** @jsx React.DOM */
+
+var User = React.createClass({
+    render: function() {
+        console.log(this.props);
+        props = JSON.stringify(this.props.tokens);
+        return (
+            <div><h2>{this.props.id}</h2>
+            Email: {this.props.email}, Tokens: {props}}</div> ); } });
+
+var CommentList = React.createClass({
+    render: function() {
+        var users = this.props.data.map(function (item) {
+            return <User id={item.id} email={item.email} tokens={item.tokens}/>; });
+        return (<div class="commentList">{users}</div>); }
+});
+
+var CommentBox = React.createClass({
+    getInitialState: function() { return {data: []}; },
+    loadCommentsFromServer: function() {
+        $.ajax({
+            url: this.props.url,
+            dataType: 'json',
+            mimeType: 'textPlain',
+            success: function(data) { this.setState({data: data.users}); }.bind(this) }); },
+    componentWillMount: function() {
+        this.loadCommentsFromServer();
+        setInterval(
+            this.loadCommentsFromServer.bind(this),
+            this.props.pollInterval ); },
+    render: function() {
+        return (<div><h1>Users</h1><CommentList data={this.state.data}/></div> ); }});
+
+React.renderComponent(
+    <CommentBox url="http://localhost:8000/rest/users" pollInterval={5000}/>,
+    document.getElementById('content'));
+
+    </script>
+  </body>
+</html>

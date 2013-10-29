@@ -7,8 +7,8 @@ start(_StartType, _StartArgs) ->
     application:start(sasl),
     application:start(ranch),
     application:start(cowboy),
-    application:start(n2o),
     application:start(gproc),
+    application:start(n2o),
 
     web_sup:start_link().
 

@@ -1,5 +1,12 @@
--record(pair, {key,value}).
--record(user, {id,name,email,tokens=[{facebook,udefined},
-                                     {github,udefined},
-                                     {local,undefined},
-                                     {twitter,udefined}]}).
+-record(user, {id, name, email, proplist = [{facebook, udefined},
+                                            {github, "github.com/b0oh"},
+                                            {local, undefined},
+                                            {twitter, udefined}],
+               string = "common",
+               number = 12,
+               list_of_strings = ["one", "two", "three"],
+               list_of_numbers = [34958726345, 12],
+               nested_proplists = [{nested, [{number, 12},
+                                             {string, "common"},
+                                             {list_of_strings, ["one", "two", "three"]},
+                                             {list_of_numbers, [345345345, 12]}]}]}).

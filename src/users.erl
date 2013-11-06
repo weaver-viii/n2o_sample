@@ -1,11 +1,9 @@
 -module(users).
--include_lib("n2o/include/wf.hrl").
+-behaviour(n2o_rest).
+-compile({parse_transform, n2o_rest}).
 -include("users.hrl").
--compile(export_all).
-
-?map(user).
-?unmap(user).
-?rest().
+-export([init/0, populate/1, exists/1, get/0, get/1, post/1, delete/1]).
+-rest_record(user).
 
 init() -> ets:new(users, [public, named_table, {keypos, #user.id}]).
 populate(Users) -> ets:insert(users, Users).
@@ -13,4 +11,5 @@ exists(Id) -> ets:member(users, wf:to_list(Id)).
 get() -> ets:tab2list(users).
 get(Id) -> [User] = ets:lookup(users, wf:to_list(Id)), User.
 delete(Id) -> ets:delete(users, wf:to_list(Id)).
-post(Data) -> ets:insert(users, unmap(Data, #user{})).
+post(#user{} = User) -> ets:insert(users, User);
+post(Data) -> post(from_json(Data, #user{})).

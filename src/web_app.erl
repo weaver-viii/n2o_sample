@@ -8,6 +8,10 @@ start(_StartType, _StartArgs) ->
     application:start(ranch),
     application:start(cowboy),
     application:start(gproc),
+    application:start(mimetypes),
+    application:start(syntax_tools),
+    application:start(compiler),
+    application:start(erlydtl),
     application:start(n2o),
 
     web_sup:start_link().

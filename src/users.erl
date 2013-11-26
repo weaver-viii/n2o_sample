@@ -9,7 +9,7 @@ init() -> ets:new(users, [public, named_table, {keypos, #user.id}]).
 populate(Users) -> ets:insert(users, Users).
 exists(Id) -> ets:member(users, wf:to_list(Id)).
 get() -> ets:tab2list(users).
-get(Id) -> [User] = ets:lookup(users, wf:to_list(Id)), User.
+get(Id) -> [User] = ets:lookup(users, wf:to_list(Id)), User. % should return record #user{}
 delete(Id) -> ets:delete(users, wf:to_list(Id)).
 post(#user{} = User) -> ets:insert(users, User);
 post(Data) -> post(from_json(Data, #user{})).

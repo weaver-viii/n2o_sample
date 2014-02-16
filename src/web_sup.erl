@@ -29,7 +29,6 @@ dispatch_rules() ->
                                                 {mimetypes, {fun mimetypes:path_to_mimes/2, default}}]},
             {"/rest/:resource", n2o_cowboy_rest, []},
             {"/rest/:resource/:id", n2o_cowboy_rest, []},
-            {"/spa/[...]", n2o_spa, []},
             {"/ws/[...]", bullet_handler, [{handler, n2o_bullet}]},
             {'_', n2o_cowboy, []}
     ]}]).

@@ -32,7 +32,14 @@ event({chat,Pid}) ->
     wf:update(text,[#panel{body= <<"Text">>},#panel{body= <<"OK">>}]),
     Pid ! {message, Username, Message};
 
-event(logout) -> wf:user(undefined), wf:redirect("/login");
+event(logout) -> 
+    wf:user(undefined),
+    <<"/ws/",X,_/binary>> = wf:path(?REQ),
+    case X of
+        $i -> wf:redirect("/login");
+        $l -> wf:redirect("/login");
+         _ -> wf:redirect("/static/spa/spa.htm") end;
+
 event(login) -> login:event(login);
 event(continue) -> wf:info("OK Pressed");
 event(Event) -> wf:info("Event: ~p", [Event]).

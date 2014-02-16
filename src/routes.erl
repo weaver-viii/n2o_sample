@@ -17,5 +17,7 @@ route(<<"/ws/">>) -> login;
 route(<<"/ws/lispchat">>) -> lispchat;
 route(<<"/ws/index">>) -> index;
 route(<<"/ws/login">>) -> login;
+route(<<"/ws/static/spa/spa.htm">>) -> login;
+route(<<"/ws/static/spa/index.htm">>) -> index;
 route(<<"/favicon.ico">>) -> static_file;
 route(_) -> index.

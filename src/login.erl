@@ -11,4 +11,12 @@ body() -> [ #span{id=display}, #br{},
             #button{id=login,body="Login",postback=login,source=[user,pass]} ].
 
 event(init) -> [];
-event(login) -> User = wf:q(user), wf:update(display,User), wf:user(User), wf:redirect("/index").
+event(login) ->
+    User = wf:q(user),
+    wf:update(display,User),
+    wf:user(User),
+    <<"/ws/",X/binary>> = wf:path(?REQ),
+    case X of
+        <<>> -> wf:redirect("/index");
+        <<"login">> -> wf:redirect("/index");
+         _ -> wf:redirect("/static/spa/index.htm") end.

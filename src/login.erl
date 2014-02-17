@@ -5,10 +5,12 @@
 title() -> [ <<"Login">> ].
 main() -> #dtl{file = "login", app=n2o_sample,bindings=[{title,title()},{body,body()}]}.
 
-body() -> [ #span{id=display}, #br{},
+body() ->
+ [ #span{id=display}, #br{},
             #span{body="Login: "}, #textbox{id=user}, #br{},
             #span{body="Password: "}, #password{id=pass},
             #button{id=login,body="Login",postback=login,source=[user,pass]} ].
+%    react:x().
 
 event(init) -> [];
 event(login) ->

@@ -9,4 +9,5 @@
                nested_proplists = [{nested, [{number, 12},
                                              {string, "common"},
                                              {list_of_strings, ["one", "two", "three"]},
-                                             {list_of_numbers, [345345345, 12]}]}]}).
+                                             {list_of_atoms, [one, two, three]},
+                                             {list_of_numbers, [100000, 2,3 ]}]}]}).

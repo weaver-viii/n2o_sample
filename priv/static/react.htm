@@ -3,7 +3,6 @@
     <title>Hello React</title>
     <script src="http://fb.me/react-0.5.0.js"></script>
     <script src="http://fb.me/JSXTransformer-0.5.0.js"></script>
-    <script src="http://localhost:8000/static/nitrogen/jquery.js"></script>
   </head>
   <body>
     <div id="content"></div>
@@ -29,11 +28,22 @@ var CommentList = React.createClass({
 var CommentBox = React.createClass({
     getInitialState: function() { return {data: []}; },
     loadCommentsFromServer: function() {
-        $.ajax({
-            url: this.props.url,
-            dataType: 'json',
-            mimeType: 'textPlain',
-            success: function(data) { this.setState({data: data.users}); }.bind(this) }); },
+
+        var p = this;
+        var request = new XMLHttpRequest;
+        request.open('GET', this.props.url, true);
+        request.onload = function() {
+            if (request.status >= 200 && request.status < 400) {
+                data = JSON.parse(request.responseText);
+                request = new XMLHttpRequest;
+                p.setState({data: data.users});
+            } else {
+                console.log("Request: " + request);
+            }
+        };
+        request.onerror = function() { };
+        request.send();
+     },
     componentWillMount: function() {
         this.loadCommentsFromServer();
         setInterval(

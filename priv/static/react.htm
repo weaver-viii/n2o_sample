@@ -28,7 +28,7 @@ var CommentList = React.createClass({
 
 var CommentBox = React.createClass({
     getInitialState: function() { return {data: []}; },
-    loadCommentsFromServer: function() {
+    loadData: function() {
         var p = this;
         var request = new XMLHttpRequest;
         request.open('GET', this.props.url, true);
@@ -37,21 +37,13 @@ var CommentBox = React.createClass({
                 data = JSON.parse(request.responseText);
                 request = new XMLHttpRequest;
                 p.setState({data: data.users});
-                if (p.timer) clearTimeout(p.timer);
             } else {
                 console.log("Request: " + request);
             }
         };
-        request.onerror = function() { };
         request.send();
-     },
-    componentWillMount: function() {
-       var loop = function () {
-            this.loadCommentsFromServer();
-            this.timer = setTimeout(loop, this.props.pollInterval)
-       }.bind(this);
-       loop();
     },
+    componentWillMount: function() { this.loadData(); },
     render: function() {
         return (<div><h1>Users</h1><CommentList data={this.state.data}/></div> ); }});
 

@@ -33,7 +33,7 @@ event({chat,Pid}) ->
     Pid ! {message, Username, Message};
 
 event(logout) -> 
-    wf:user(undefined),
+    wf:logout(),
     <<"/ws/",X,_/binary>> = wf:path(?REQ),
     case X of
         $i -> wf:redirect("/login");

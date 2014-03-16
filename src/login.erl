@@ -21,4 +21,5 @@ event(login) ->
     case X of
         <<>> -> wf:redirect("/index");
         <<"login">> -> wf:redirect("/index");
-         _ -> wf:redirect("/static/spa/index.htm") end.
+         _ -> wf:redirect("/static/spa/index.htm") end;
+event(_) -> [].

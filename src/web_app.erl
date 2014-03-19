@@ -12,6 +12,7 @@ start(_StartType, _StartArgs) ->
     application:start(syntax_tools),
     application:start(compiler),
     application:start(erlydtl),
+    application:start(rest),
     application:start(n2o),
 
     web_sup:start_link().

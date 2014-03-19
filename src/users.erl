@@ -1,6 +1,6 @@
 -module(users).
--behaviour(n2o_rest).
--compile({parse_transform, n2o_rest}).
+-behaviour(rest).
+-compile({parse_transform, rest}).
 -include("users.hrl").
 -export([init/0, populate/1, exists/1, get/0, get/1, post/1, delete/1]).
 -rest_record(user).
